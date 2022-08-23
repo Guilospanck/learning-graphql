@@ -6,3 +6,6 @@
 ```bash
 npx ts-node --transpile-only src/schema
 ```
+
+## Some tips
+Take a look at [DataLoader](https://github.com/graphql/dataloader) for batching and catching requests.
