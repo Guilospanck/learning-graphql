@@ -1,4 +1,4 @@
-import { objectType, extendType } from 'nexus'
+import { objectType, extendType, nonNull, stringArg } from 'nexus'
 import { NexusGenObjects } from '../../nexus-typegen'
 
 /**
@@ -39,7 +39,7 @@ let links: NexusGenObjects['Link'][] = [
     type Query {
       feed: [Link!]!
     }
-    
+
  */
 export const LinkQuery = extendType({
   type: 'Query',
@@ -48,6 +48,38 @@ export const LinkQuery = extendType({
       type: 'Link',
       resolve(parent, args, context, info) {
         return links
+      }
+    })
+  },
+})
+
+/**
+ * Will translate to:
+ 
+  type Mutation {
+    post(description: String!, url: String!): Link!
+  }
+  
+ */
+export const LinkMutation = extendType({
+  type: 'Mutation',
+  definition(t) {
+    t.nonNull.field('post', {
+      type: 'Link',
+      args: {
+        description: nonNull(stringArg()),
+        url: nonNull(stringArg()),
+      },
+      resolve(parent, args, context) {
+        const { description, url } = args
+        let idCount = links.length + 1
+        const link = {
+          id: idCount,
+          description,
+          url
+        }
+        links.push(link)
+        return link
       }
     })
   },
