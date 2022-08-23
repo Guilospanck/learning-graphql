@@ -5,6 +5,10 @@
   "repository": "https://github.com/Guilospanck/learning-graphql.git",
   "author": "Guilherme Pereira <guilherme.rp2010@hotmail.com>",
   "license": "MIT",
+  "scripts": {
+    "dev": "ts-node-dev --transpile-only --no-notify --exit-child src/index.ts",
+    "generate": "ts-node --transpile-only src/schema.ts"
+  },
   "devDependencies": {
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.7.4"
