@@ -55,9 +55,11 @@ export interface NexusGenFieldTypes {
   }
   Mutation: { // field return type
     post: NexusGenRootTypes['Link']; // Link!
+    updateLink: NexusGenRootTypes['Link']; // Link!
   }
   Query: { // field return type
     feed: NexusGenRootTypes['Link'][]; // [Link!]!
+    link: NexusGenRootTypes['Link'] | null; // Link
   }
 }
 
@@ -69,9 +71,11 @@ export interface NexusGenFieldTypeNames {
   }
   Mutation: { // field return type name
     post: 'Link'
+    updateLink: 'Link'
   }
   Query: { // field return type name
     feed: 'Link'
+    link: 'Link'
   }
 }
 
@@ -80,6 +84,16 @@ export interface NexusGenArgTypes {
     post: { // args
       description: string; // String!
       url: string; // String!
+    }
+    updateLink: { // args
+      description?: string | null; // String
+      id: number; // Int!
+      url?: string | null; // String
+    }
+  }
+  Query: {
+    link: { // args
+      id: number; // Int!
     }
   }
 }

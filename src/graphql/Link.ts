@@ -1,5 +1,5 @@
-import { objectType, extendType, nonNull, stringArg } from 'nexus'
-import { NexusGenObjects } from '../../nexus-typegen'
+import { objectType, extendType, nonNull, stringArg, intArg } from 'nexus'
+import { NexusGenObjects, NexusGenRootTypes } from '../../nexus-typegen'
 
 /**
  * Will translate to:
@@ -38,6 +38,7 @@ let links: NexusGenObjects['Link'][] = [
 
     type Query {
       feed: [Link!]!
+      link(id: Int!): Link
     }
 
  */
@@ -49,9 +50,20 @@ export const LinkQuery = extendType({
       resolve(parent, args, context, info) {
         return links
       }
-    })
+    }),
+      t.field('link', {
+        type: 'Link',
+        args: {
+          id: nonNull(intArg())
+        },
+        resolve(parent, args, context, info) {
+          return links.find(item => item.id === args.id) ?? null
+        }
+      })
   },
 })
+
+
 
 /**
  * Will translate to:
@@ -81,6 +93,34 @@ export const LinkMutation = extendType({
         links.push(link)
         return link
       }
-    })
+    }),
+      t.nonNull.field('updateLink', {
+        type: 'Link',
+        args: {
+          id: nonNull(intArg()),
+          url: stringArg(),
+          description: stringArg()
+        },
+        resolve(parent, args, context, info) {
+          const { id, url, description } = args
+          let link = links.find(item => item.id === id)
+          if (!link) {
+            // creates a new one
+            link = {
+              id,
+              url: url ?? '',
+              description: description ?? ''
+            }
+
+            links.push(link)
+          } else {
+            link.url = url ?? link.url
+            link.description = description ?? link.description
+            const index = links.findIndex(item => item.id === id)
+            links[index] = link
+          }
+          return link
+        }
+      })
   },
 })
