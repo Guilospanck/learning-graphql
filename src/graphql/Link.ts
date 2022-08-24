@@ -1,5 +1,5 @@
 import { objectType, extendType, nonNull, stringArg, intArg } from 'nexus'
-import { NexusGenObjects, NexusGenRootTypes } from '../../nexus-typegen'
+import { NexusGenObjects } from '../../nexus-typegen'
 
 /**
  * Will translate to:
@@ -93,34 +93,49 @@ export const LinkMutation = extendType({
         links.push(link)
         return link
       }
-    }),
-      t.nonNull.field('updateLink', {
-        type: 'Link',
-        args: {
-          id: nonNull(intArg()),
-          url: stringArg(),
-          description: stringArg()
-        },
-        resolve(parent, args, context, info) {
-          const { id, url, description } = args
-          let link = links.find(item => item.id === id)
-          if (!link) {
-            // creates a new one
-            link = {
-              id,
-              url: url ?? '',
-              description: description ?? ''
-            }
-
-            links.push(link)
-          } else {
-            link.url = url ?? link.url
-            link.description = description ?? link.description
-            const index = links.findIndex(item => item.id === id)
-            links[index] = link
+    })
+    t.nonNull.field('updateLink', {
+      type: 'Link',
+      args: {
+        id: nonNull(intArg()),
+        url: stringArg(),
+        description: stringArg()
+      },
+      resolve(parent, args, context, info) {
+        const { id, url, description } = args
+        let link = links.find(item => item.id === id)
+        if (!link) {
+          // creates a new one
+          link = {
+            id,
+            url: url ?? '',
+            description: description ?? ''
           }
-          return link
+
+          links.push(link)
+        } else {
+          link.url = url ?? link.url
+          link.description = description ?? link.description
+          const index = links.findIndex(item => item.id === id)
+          links[index] = link
         }
-      })
+        return link
+      }
+    })
+    t.field('deleteLink', {
+      type: 'Link',
+      args: {
+        id: nonNull(intArg())
+      },
+      resolve(parent, args, context, info) {
+        const index = links.findIndex(item => item.id === args.id)
+        if(index === -1) {
+          return null
+        }
+        const link = links.at(index)
+        links.splice(index, 1)
+        return link
+      }
+    })
   },
 })
