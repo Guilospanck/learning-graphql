@@ -8,12 +8,22 @@ npx ts-node --transpile-only src/schema
 ```
 
 ### Prisma
+- Add Prisma dependencies
 ```bash
 yarn add -D prisma
 yarn add @prisma/client
 ```
+- Initiate new Prisma files
 ```bash
 npx prisma init
+```
+- Migrate a new database after some schemas have been created:
+```bash
+npx prisma migrate dev --name "init"
+```
+- If you need to regenerate Prisma Client:
+```bash
+npx prisma generate
 ```
 
 ## Some tips
