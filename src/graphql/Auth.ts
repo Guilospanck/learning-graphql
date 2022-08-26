@@ -43,6 +43,18 @@ export const AuthMutation = extendType({
       args: {
         email: nonNull(stringArg()),
         password: nonNull(stringArg())
+      },
+      async resolve(parent, args, context) {
+        const { email, password } = args
+        const user = await context.prisma.user.findUnique({ where: { email } })
+        if(!user) { throw new Error('No such user found') }
+        const validPass = await bcrypt.compare(password, user.password)
+        if(!validPass) { throw new Error('Invalid password') }
+        const token = jwt.sign({ userId: user.id }, APP_SECRET)
+
+        return {
+          token, user
+        }
       }
     })
   },
