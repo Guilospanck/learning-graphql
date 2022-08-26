@@ -78,11 +78,16 @@ export const LinkMutation = extendType({
         description: nonNull(stringArg()),
         url: nonNull(stringArg()),
       },
-      resolve(parent, args, context) {
+      async resolve(parent, args, context) {
+        if (!context.userId) {
+          throw new Error('Only authenticated users can create new links')
+        }
+
         return context.prisma.link.create({
           data: {
             description: args.description,
-            url: args.url
+            url: args.url,
+            postedBy: { connect: { id: context.userId } }
           }
         })
       }
