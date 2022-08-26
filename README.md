@@ -7,6 +7,8 @@
 npx ts-node --transpile-only src/schema
 ```
 
+- If you want to write a SDL beforehand and then convert to TS, you can use `https://nexusjs.org/converter`.
+
 ### Prisma
 - Add Prisma dependencies
 ```bash
