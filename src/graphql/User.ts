@@ -1,4 +1,4 @@
-import { extendType, nonNull, objectType, stringArg } from "nexus";
+import { objectType } from "nexus";
 
 export const User = objectType({
   name: 'User',
@@ -12,35 +12,6 @@ export const User = objectType({
         return context.prisma.user
           .findUnique({ where: { id: parent.id } })
           .links()
-      }
-    })
-  },
-})
-
-export const AuthPayload = objectType({
-  name: 'AuthPayload',
-  definition(t) {
-    t.nonNull.string('token')
-    t.nonNull.field('user', { type: 'User' })
-  },
-})
-
-export const UserMutation = extendType({
-  type: 'Mutation',
-  definition(t) {
-    t.field('signup', {
-      type: 'AuthPayload',
-      args: {
-        email: nonNull(stringArg()),
-        password: nonNull(stringArg()),
-        name: nonNull(stringArg())
-      }
-    })
-    t.field('login', {
-      type: 'AuthPayload',
-      args: {
-        email: nonNull(stringArg()),
-        password: nonNull(stringArg())
       }
     })
   },
