@@ -51,7 +51,9 @@ export const LinkQuery = extendType({
     t.nonNull.list.nonNull.field('feed', {
       type: 'Link',
       args: {
-        filter: stringArg()
+        filter: stringArg(), // filtering
+        skip: intArg(), // pagination (offset)
+        take: intArg() // pagination (limit)
       },
       resolve(parent, args, context, info) {
         const where = args.filter
@@ -63,7 +65,9 @@ export const LinkQuery = extendType({
           } : {}
 
         return context.prisma.link.findMany({
-          where
+          where,
+          skip: args?.skip as number | undefined,
+          take: args?.take as number | undefined,
         })
       }
     })
