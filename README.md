@@ -1,4 +1,5 @@
 # learning-graphql
+Studies following [HowToGraphQL](https://www.howtographql.com/basics/0-introduction/)
 
 ## Backend
 - Apollo Server: is a GraphQL web server. It is based on Express.
