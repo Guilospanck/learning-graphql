@@ -183,6 +183,9 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    feed: { // args
+      filter?: string | null; // String
+    }
     link: { // args
       id: number; // Int!
     }

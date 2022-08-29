@@ -50,23 +50,36 @@ export const LinkQuery = extendType({
   definition(t) {
     t.nonNull.list.nonNull.field('feed', {
       type: 'Link',
+      args: {
+        filter: stringArg()
+      },
       resolve(parent, args, context, info) {
-        return context.prisma.link.findMany()
+        const where = args.filter
+          ? {
+            OR: [
+              { url: { contains: args.filter } },
+              { description: { contains: args.filter } }
+            ]
+          } : {}
+
+        return context.prisma.link.findMany({
+          where
+        })
       }
-    }),
-      t.field('link', {
-        type: 'Link',
-        args: {
-          id: nonNull(intArg())
-        },
-        resolve(parent, args, context, info) {
-          return context.prisma.link.findUnique({
-            where: {
-              id: args.id
-            }
-          })
-        }
-      })
+    })
+    t.field('link', {
+      type: 'Link',
+      args: {
+        id: nonNull(intArg())
+      },
+      resolve(parent, args, context, info) {
+        return context.prisma.link.findUnique({
+          where: {
+            id: args.id
+          }
+        })
+      }
+    })
   },
 })
 
