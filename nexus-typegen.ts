@@ -54,6 +54,11 @@ export interface NexusGenObjects {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  Feed: { // root type
+    count: number; // Int!
+    id?: string | null; // ID
+    links: NexusGenRootTypes['Link'][]; // [Link!]!
+  }
   Link: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -88,6 +93,11 @@ export interface NexusGenFieldTypes {
     token: string; // String!
     user: NexusGenRootTypes['User']; // User!
   }
+  Feed: { // field return type
+    count: number; // Int!
+    id: string | null; // ID
+    links: NexusGenRootTypes['Link'][]; // [Link!]!
+  }
   Link: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description: string; // String!
@@ -105,7 +115,7 @@ export interface NexusGenFieldTypes {
     vote: NexusGenRootTypes['Vote'] | null; // Vote
   }
   Query: { // field return type
-    feed: NexusGenRootTypes['Link'][]; // [Link!]!
+    feed: NexusGenRootTypes['Feed']; // Feed!
     getAllUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     link: NexusGenRootTypes['Link'] | null; // Link
   }
@@ -127,6 +137,11 @@ export interface NexusGenFieldTypeNames {
     token: 'String'
     user: 'User'
   }
+  Feed: { // field return type name
+    count: 'Int'
+    id: 'ID'
+    links: 'Link'
+  }
   Link: { // field return type name
     createdAt: 'DateTime'
     description: 'String'
@@ -144,7 +159,7 @@ export interface NexusGenFieldTypeNames {
     vote: 'Vote'
   }
   Query: { // field return type name
-    feed: 'Link'
+    feed: 'Feed'
     getAllUsers: 'User'
     link: 'Link'
   }
