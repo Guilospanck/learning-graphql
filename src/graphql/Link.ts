@@ -1,4 +1,19 @@
-import { objectType, extendType, nonNull, stringArg, intArg } from 'nexus'
+import { Prisma } from '@prisma/client'
+import { objectType, extendType, nonNull, stringArg, intArg, inputObjectType, enumType, arg, list } from 'nexus'
+
+export const Sort = enumType({
+  name: "Sort",
+  members: ["asc", "desc"]
+})
+
+export const LinkOrderByInput = inputObjectType({
+  name: "LinkOrderByInput",
+  definition(t) {
+    t.field("description", { type: Sort })
+    t.field("url", { type: Sort })
+    t.field("createdAt", { type: Sort })
+  },
+})
 
 /**
  * Will translate to:
@@ -53,7 +68,10 @@ export const LinkQuery = extendType({
       args: {
         filter: stringArg(), // filtering
         skip: intArg(), // pagination (offset)
-        take: intArg() // pagination (limit)
+        take: intArg(), // pagination (limit)
+        orderBy: arg({ // sorting
+          type: list(nonNull(LinkOrderByInput))
+        })
       },
       resolve(parent, args, context, info) {
         const where = args.filter
@@ -68,6 +86,7 @@ export const LinkQuery = extendType({
           where,
           skip: args?.skip as number | undefined,
           take: args?.take as number | undefined,
+          orderBy: args?.orderBy as Prisma.Enumerable<Prisma.LinkOrderByWithRelationInput> | undefined
         })
       }
     })

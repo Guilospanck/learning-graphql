@@ -3,6 +3,9 @@ Studies following [HowToGraphQL](https://www.howtographql.com/basics/0-introduct
 
 - GraphQL Scalars
 The benefit of them is that they simultaneously add representation and validation for the primitive types of the API.
+```bash
+yarn add graphql-scalars                         
+```
 
 ## Backend
 - Apollo Server: is a GraphQL web server. It is based on Express.
