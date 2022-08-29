@@ -1,6 +1,9 @@
 # learning-graphql
 Studies following [HowToGraphQL](https://www.howtographql.com/basics/0-introduction/)
 
+- GraphQL Scalars
+The benefit of them is that they simultaneously add representation and validation for the primitive types of the API.
+
 ## Backend
 - Apollo Server: is a GraphQL web server. It is based on Express.
 - Nexus: library to create type-safe GraphQL schemas using the code-first approach.
