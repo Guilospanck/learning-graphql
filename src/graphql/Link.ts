@@ -24,6 +24,14 @@ export const Link = objectType({
           .postedBy()
       }
     })
+    t.list.field("voters", {
+      type: "User",
+      resolve(parent, args, context) {
+        return context.prisma.link
+          .findUnique({ where: { id: parent.id } })
+          .voters()
+      }
+    })
   }
 })
 

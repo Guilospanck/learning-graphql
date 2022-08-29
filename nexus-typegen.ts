@@ -44,6 +44,10 @@ export interface NexusGenObjects {
     id: number; // Int!
     name: string; // String!
   }
+  Vote: { // root type
+    link: NexusGenRootTypes['Link']; // Link!
+    user: NexusGenRootTypes['User']; // User!
+  }
 }
 
 export interface NexusGenInterfaces {
@@ -66,6 +70,7 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     postedBy: NexusGenRootTypes['User'] | null; // User
     url: string; // String!
+    voters: Array<NexusGenRootTypes['User'] | null> | null; // [User]
   }
   Mutation: { // field return type
     deleteLink: NexusGenRootTypes['Link'] | null; // Link
@@ -73,9 +78,11 @@ export interface NexusGenFieldTypes {
     post: NexusGenRootTypes['Link']; // Link!
     signup: NexusGenRootTypes['AuthPayload'] | null; // AuthPayload
     updateLink: NexusGenRootTypes['Link']; // Link!
+    vote: NexusGenRootTypes['Vote'] | null; // Vote
   }
   Query: { // field return type
     feed: NexusGenRootTypes['Link'][]; // [Link!]!
+    getAllUsers: Array<NexusGenRootTypes['User'] | null> | null; // [User]
     link: NexusGenRootTypes['Link'] | null; // Link
   }
   User: { // field return type
@@ -83,6 +90,11 @@ export interface NexusGenFieldTypes {
     id: number; // Int!
     links: NexusGenRootTypes['Link'][]; // [Link!]!
     name: string; // String!
+    votes: Array<NexusGenRootTypes['Link'] | null>; // [Link]!
+  }
+  Vote: { // field return type
+    link: NexusGenRootTypes['Link']; // Link!
+    user: NexusGenRootTypes['User']; // User!
   }
 }
 
@@ -96,6 +108,7 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     postedBy: 'User'
     url: 'String'
+    voters: 'User'
   }
   Mutation: { // field return type name
     deleteLink: 'Link'
@@ -103,9 +116,11 @@ export interface NexusGenFieldTypeNames {
     post: 'Link'
     signup: 'AuthPayload'
     updateLink: 'Link'
+    vote: 'Vote'
   }
   Query: { // field return type name
     feed: 'Link'
+    getAllUsers: 'User'
     link: 'Link'
   }
   User: { // field return type name
@@ -113,6 +128,11 @@ export interface NexusGenFieldTypeNames {
     id: 'Int'
     links: 'Link'
     name: 'String'
+    votes: 'Link'
+  }
+  Vote: { // field return type name
+    link: 'Link'
+    user: 'User'
   }
 }
 
@@ -138,6 +158,9 @@ export interface NexusGenArgTypes {
       description?: string | null; // String
       id: number; // Int!
       url?: string | null; // String
+    }
+    vote: { // args
+      linkId: number; // Int!
     }
   }
   Query: {

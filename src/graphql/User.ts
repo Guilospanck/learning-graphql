@@ -1,4 +1,4 @@
-import { objectType } from "nexus";
+import { extendType, objectType } from "nexus";
 
 export const User = objectType({
   name: 'User',
@@ -12,6 +12,26 @@ export const User = objectType({
         return context.prisma.user
           .findUnique({ where: { id: parent.id } })
           .links()
+      }
+    })
+    t.nonNull.list.field("votes", {
+      type: "Link",
+      resolve(parent, args, context) {
+        return context.prisma.user
+          .findUnique({ where: { id: context.userId } })
+          .votes()
+      }
+    })
+  },
+})
+
+export const UserQuery = extendType({
+  type: "Query",
+  definition(t) {
+    t.list.field("getAllUsers", {
+      type: "User",
+      resolve(parent, args, context) {
+        return context.prisma.user.findMany()
       }
     })
   },
